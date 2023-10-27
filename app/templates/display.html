@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display DataFrame</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add CSS styles for the fixed box with scroll bar */
+        .fixed-box {
+            max-height: 1000px; /* Adjust this value to set the maximum height of the box */
+            max-width: 1000px; /* Adjust this value to set the maximum width of the box */
+            overflow-y: scroll;
+            overflow-x: auto; /* Enable horizontal scrolling if the content exceeds the width */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>DataFrame Display</h1>
+        <!-- Apply the 'fixed-box' class to the table to make it scrollable -->
+        <div id="table-container" class="fixed-box">
+            {{ table_html | safe }}
+        </div>
+        
+        <!-- Add a button to predict data -->
+        <div class="form-group mt-3">
+            <button id="predict-data" class="btn btn-primary">Predict Data</button>
+        </div>
+        <!-- Add a text input field for specifying the file path -->
+        <div class="form-group mt-3">
+            <label for="file_path">File Path:</label>
+            <input type="text" class="form-control" id="file_path" name="file_path" placeholder="Enter file path">
+        </div>
+        <!-- Add a button to update the file path -->
+        <div class="form-group mt-3">
+            <button id="update-file-path" class="btn btn-primary">Update File Path</button>
+        </div>
+        <!-- Add a message to indicate a successful update -->
+        {% if updated %}
+        <div class="alert alert-success mt-3">
+            Data updated successfully.
+        </div>
+        {% endif %}
+        <!-- Add a section to display the list of static files -->
+        <div class="mt-5">
+            <h2>List of Static Files</h2>
+            <ul id="static-file-list">
+                <!-- The list of files will be added here using JavaScript -->
+            </ul>
+        </div>
+    </div>
+    <!-- Include jQuery library for making AJAX requests -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Add JavaScript code to fetch and display the list of static files -->
+    <script>
+        // Function to fetch and display the list of static files
+        function fetchStaticFiles() {
+            $.get('/static_files_json', function (data) {
+                // Get the list of files from the JSON response
+                var staticFiles = data.static_files;
+                // Select the <ul> element to display the list of files
+                var fileList = $('#static-file-list');
+                // Clear any existing items in the list
+                fileList.empty();
+                // Loop through the static files and add them to the list
+                for (var i = 0; i < staticFiles.length; i++) {
+                    var listItem = $('<li>').text(staticFiles[i]);
+                    fileList.append(listItem);
+                }
+            });
+        }
+        // Call the fetchStaticFiles function when the page loads
+        $(document).ready(function () {
+            fetchStaticFiles();
+        });
+        // Function to update the file path on the server
+        function updateFilePath() {
+            var newFilePath = $('#file_path').val();  // Get the value from the input field
+            $.post('/update_file_path', { new_file_path: newFilePath }, function (data) {
+                if (data.success) {
+                    // Display a success message or perform any necessary actions
+                    alert('File path updated successfully.');
+                } else {
+                    // Handle errors or display an error message
+                    alert('Failed to update file path.');
+                }
+            });
+        }
+        // Attach the updateFilePath function to the "Update File Path" button click event
+        $('#update-file-path').click(function () {
+            updateFilePath();
+        });
+
+        // Function to predict data and make an AJAX request to the server
+        function predictData() {
+            // Implement your logic to predict data here
+            $.post('/predict_data', function (data) {
+                // Handle the response or perform any necessary actions
+                alert('Data prediction completed.');
+            });
+        }
+
+        // Attach the predictData function to the "Predict Data" button click event
+        $('#predict-data').click(function () {
+            predictData();
+        });
+
+        
+    </script>
+</body>
+</html>
