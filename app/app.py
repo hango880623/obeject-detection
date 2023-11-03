@@ -38,7 +38,6 @@ def display_df():
     global df  # Ensure the function uses the global DataFrame
     # Convert the DataFrame to HTML
     table_html = df.to_html(classes='table table-bordered table-striped', index=False, escape=False)
-    print(df)
     return render_template('display.html', table_html=table_html)
 
 @app.route('/predict_data', methods=['POST'])
@@ -57,7 +56,9 @@ def update_file_path():
     new_file_path = request.form.get('new_file_path')  # Get the value from the "new_file_path" input
     if new_file_path:
         update_file_path_variable(new_file_path)  # Update the file_path
-    return redirect(url_for('display_df'))
+        return jsonify(success=True)
+    else:
+        return jsonify(success=False)
 
 if __name__ == '__main__':
     app.run(debug=True)

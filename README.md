@@ -1,14 +1,12 @@
 # Object Detection Api
 
-- **This code still a work in progress**
-
 In the project root directory *app/*,
 
 - *app.py* contains a simple api that handles POST method
 
-- *main.py* (scratch) code to make a POST request
+- *main.py* code to test a POST request
 
-- *post_request.py* (unfinished) code that will replace *main.py*, ties all the code together into 1 module
+- *post_request.py* code to handle the post request for the API
 
 In the *src/* directory, you'll find:
 

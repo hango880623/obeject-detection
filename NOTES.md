@@ -1,4 +1,4 @@
-# To reproduce the conda enviornment
+# To reproduce the conda environment
 
 **Note** the example commands used below are for Unix/Linux operating systems
 
@@ -17,10 +17,12 @@ or
 First clone this repository
 
 ``` git clone https://github.com/soph-py/object_detection.git ```
+Remember to update your Google api key in .env file
 
-Once the conda enviorment is activated, change directories to app/
 
-``` cd ~/app ```
+Once the conda environment is activated, change directories to app/
+
+``` cd ./app ```
 
 Then start running the Flask app (making sure you have the yolo enviorment activated and flask installed) by running the following:
 

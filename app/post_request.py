@@ -62,8 +62,10 @@ def postprocess_predictions(response):
 def update(root):
     # take cmd line args, i.e. path to csv file
     # then call functions in the order below:
-    df_dict_10 = load_df_from_csv(root)
-    response = request_model(df_dict_10)
+    print(root)
+    df_dict = load_df_from_csv(root)
+    print(df_dict)
+    response = request_model(df_dict)
     obj_index_map, obj_count = postprocess_predictions(response)
     df = pd.read_csv(root)  # Read the CSV file without setting the index column
     # Iterate through the dictionary and update the DataFrame
