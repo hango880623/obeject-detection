@@ -15,11 +15,12 @@ Detections = Dict[str, List[Prediction]] # list of predicted objects detected pe
 IndexMap = List[Union[str, int]]
 BytesFiles = List[Tuple[str, bytes]]
 
-def load_df_from_csv(file):
+
+def load_df_from_csv(file,start = 0, end = 10):
     df = pd.read_csv(file)
     # Create a new DataFrame 'df_10' containing the first 10 rows
-    df_10 = df.iloc[0:10]
-    data_dict = df_10.to_dict(orient='index')
+    df_partial = df.iloc[start:end]
+    data_dict = df_partial.to_dict(orient='index')
     selected_categories = ['Street', 'City', 'State', 'ZipCode']
     filtered_dict = {index: {category: data_dict[index][category] for category in selected_categories} for index in data_dict}
     return filtered_dict

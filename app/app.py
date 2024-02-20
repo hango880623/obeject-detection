@@ -8,7 +8,7 @@ import time
 app = Flask(__name__)
 
 # Load your DataFrame here
-model_path = 'static/best1013.pt'
+model_path = 'static/best.pt'
 base_path = 'static/csv/'
 yolo_model = Yolo(weights_=model_path)
 file_path = os.path.join(base_path,'address_20.csv')
@@ -34,8 +34,9 @@ def batch_request():
         return jsonify(detection_map)
     
 @app.route('/', methods=['GET'])
-def display_df():
+def display_df(): 
     global df  # Ensure the function uses the global DataFrame
+    df = pd.read_csv(file_path)
     # Convert the DataFrame to HTML
     table_html = df.to_html(classes='table table-bordered table-striped', index=False, escape=False)
     return render_template('display.html', table_html=table_html)
